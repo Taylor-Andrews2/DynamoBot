@@ -152,16 +152,20 @@ function sleep(milliseconds) {
   }
 }
 
-bot.on('voiceStateUpdate', (oldMember, newMember) => {
-	let newUserChannel = newMember.voiceChannel
-	let oldUserChannel = oldMember.voiceChannel
+client.on('voiceStateUpdate', (oldMember, newMember) => {
+	let newUserChannel = newMember.voiceChannel;
+	let oldUserChannel = oldMember.voiceChannel;
 	
 	if(oldUserChannel === undefined && newUserChannel !== undefined) {
-		//user joins a voice channel (create channel id = 507040960660635699)
+		//user joins a voice channel (create channel id = 608044266098393261)
+		if(newUserChannel.id === "608044266098393261"){
+			guild.createChannel('temp-channel', {type: 'voice'})
+		}
 	}
 	
-	else if (newUserChannel = undefined){
+	else if (newUserChannel === undefined){
 		//user leaves a voice channel
 	}
+});
 
 client.login(config.token);
