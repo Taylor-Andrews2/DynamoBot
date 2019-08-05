@@ -132,19 +132,15 @@ client.on("message", async message => {
       .catch(error => message.reply(`Couldn't delete messages because of: ${error}`));
   }
   if(command === "create") {
-	message.guild.createChannel(args[0], 'voice').then(channel => {
-		channel.setUserLimit(12),
-		sleep(100),
-		channel.setBitrate(8),
-		sleep(100),
-		channel.setPosition(0)
+	message.guild.createChannel(args[0], {type: 'voice', userLimit: args[1]}).then(channel => {
+		channel.setPosition(0);
 	})
 	.then(console.log)
 	.catch(console.error);
 	
 	//move user to channel they created
 	//if empty delete
-   }
+  }
 });
 
 function sleep(milliseconds) {
@@ -155,5 +151,17 @@ function sleep(milliseconds) {
     }
   }
 }
+
+bot.on('voiceStateUpdate', (oldMember, newMember) => {
+	let newUserChannel = newMember.voiceChannel
+	let oldUserChannel = oldMember.voiceChannel
+	
+	if(oldUserChannel === undefined && newUserChannel !== undefined) {
+		//user joins a voice channel (create channel id = 507040960660635699)
+	}
+	
+	else if (newUserChannel = undefined){
+		//user leaves a voice channel
+	}
 
 client.login(config.token);
