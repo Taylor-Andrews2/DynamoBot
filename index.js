@@ -155,11 +155,17 @@ function sleep(milliseconds) {
 client.on('voiceStateUpdate', (oldMember, newMember) => {
 	let newUserChannel = newMember.voiceChannel;
 	let oldUserChannel = oldMember.voiceChannel;
+	let guild = newMember.guild;
 	
-	if(oldUserChannel === undefined && newUserChannel !== undefined) {
+		if(oldUserChannel !== newUserChannel) {
 		//user joins a voice channel (create channel id = 608044266098393261)
 		if(newUserChannel.id === "608044266098393261"){
-			guild.createChannel('temp-channel', {type: 'voice'})
+			guild.createChannel('temp-channel', {type: 'voice'}).then(channel => {
+		channel.setPosition(0),
+		newMember.setVoiceChannel(channel.id)
+	})
+		//let newTempChannel = guild.channels.find(channel => channel.name === "temp-channel")
+		//newMember.setVoiceChannel(newTempChannelID).then(() => console.log(`Moved ${newMember.displayName} to ${newTempChannel}`))
 		}
 	}
 	
