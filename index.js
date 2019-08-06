@@ -11,6 +11,8 @@ const config = require("./config.json");
 // config.token contains the bot's token
 // config.prefix contains the message prefix.
 
+var baseCount = 0;
+
 client.on("ready", () => {
   // This event will run if the bot starts, and logs in, successfully.
   console.log(`Bot has started, with ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} guilds.`); 
@@ -156,11 +158,15 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
 	let newUserChannel = newMember.voiceChannel;
 	let oldUserChannel = oldMember.voiceChannel;
 	let guild = newMember.guild;
+	if (baseCount === 0){
+		baseCount = guild.channels.array().length;
+	}
+	count = guild.channels.array().length
 	
 		if(oldUserChannel !== newUserChannel) {
-		//user joins a voice channel (create channel id = 608044266098393261)
-		if(newUserChannel.id === "608044266098393261"){
-			guild.createChannel('temp-channel', {type: 'voice'}).then(channel => {
+		//user joins a voice channel (create channel id = 608116719919300628)
+		if(newUserChannel.id === "608116719919300628"){
+			guild.createChannel('temp-channel-' + ((count - baseCount) + 1), {type: 'voice'}).then(channel => {
 		channel.setPosition(0),
 		newMember.setVoiceChannel(channel.id)
 	})
