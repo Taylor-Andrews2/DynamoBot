@@ -142,7 +142,7 @@ client.on("message", async message => {
     if (command === "create") { //create a new voice channel with name and userLimit passed through args
         message.guild.createChannel(args[0], {
             type: 'voice',
-            userLimit: args[1]
+            userLimit: args[1],
         }).then(channel => {
             //set channel to top of list
             channel.setPosition(0);
@@ -159,6 +159,37 @@ client.on("message", async message => {
         //move user to channel they created
         //if empty delete
     }
+	if (command === "squad") {
+		
+		var squad1 = 0, squad2 = 0, squad3 = 0, squad4 = 0;
+		squad1 = getRandomInt(4);
+		squad2 = getRandomInt(4);
+		while(squad1 === squad2){
+			
+			squad2 = getRandomInt(4);
+			
+		}
+		squad3 = getRandomInt(4);
+		while((squad1 === squad3) | (squad2 === squad3)){
+			
+			squad3 = getRandomInt(4);
+			
+		}
+		squad4 = getRandomInt(4);
+		while((squad1 === squad4) | (squad2 === squad4) | (squad3 === squad4)){
+			
+			squad4 = getRandomInt(4);
+			
+		}
+		var pubgRolesMap = new Map();
+		pubgRolesMap .set(0, "Commander");
+		pubgRolesMap .set(1, "Sniper");
+		pubgRolesMap .set(2, "Support");
+		pubgRolesMap .set(3, "Medic");
+
+		message.channel.send(`Squad Member 1: ${pubgRolesMap.get(squad1)}\nSquad Member 2: ${pubgRolesMap.get(squad2)}\nSquad Member 3: ${pubgRolesMap.get(squad3)}\nSquad Member 4: ${pubgRolesMap.get(squad4)}`);
+		
+	}
 });
 
 function sleep(milliseconds) {
@@ -168,6 +199,10 @@ function sleep(milliseconds) {
             break;
         }
     }
+}
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
 }
 
 client.on('voiceStateUpdate', (oldMember, newMember) => {
